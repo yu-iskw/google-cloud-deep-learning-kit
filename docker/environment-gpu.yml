@@ -1,0 +1,28 @@
+name: jupyter-keras-gpu
+channels:
+    - https://conda.anaconda.org/menpo
+    - conda-forge
+dependencies:
+    - python==3.5.2
+    - cython
+    - numpy
+    - matplotlib
+    - opencv3
+    - pillow
+    - jupyter
+    - jupyter_contrib_nbextensions
+    - scikit-learn
+    - scikit-image
+    - scipy
+    - h5py
+    - eventlet
+    - flask-socketio
+    - seaborn
+    - pandas
+    - ffmpeg
+    - imageio=2.1.2
+    - pyqt=4.11.4
+    - pip:
+        - moviepy
+        - tensorflow-gpu==1.1.0
+        - keras==2.0.4
