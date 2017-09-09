@@ -31,6 +31,7 @@ ENV PATH /miniconda/bin:$PATH
 COPY environment-gpu.yml  ./environment.yml
 RUN conda env create -f environment.yml -n jupyter-keras-gpu
 ENV PATH /miniconda/envs/jupyter-keras-gpu/bin:$PATH
+RUN jupyter contrib nbextension install --user
 
 # cleanup tarballs and downloaded package files
 RUN conda clean -tp -y
