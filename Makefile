@@ -65,7 +65,7 @@ ssh-tunnel: check-instance-name check-gcp-project-id check-gcp-zone check-jupyte
 		--project $(GCP_PROJECT_ID) \
 		--zone $(GCP_ZONE) \
 		--ssh-flag="-L" \
-		--ssh-flag="$(JUPYTER_PORT):localhost:8888" &
+		--ssh-flag="$(JUPYTER_PORT):localhost:8888"
 
 build-docker:
 	cd docker \
