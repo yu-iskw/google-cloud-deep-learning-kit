@@ -48,7 +48,7 @@ make delete-instance \
 make upload-files \
   INSTANCE_NAME="test-gpu-instance" \
   GCP_PROJECT_ID=xxx-xxx-xxx \
-  SOURCE=/path/to/your/files
+  FROM=/path/to/your/files
 ```
 
 ### Download ouputs
@@ -57,7 +57,7 @@ make upload-files \
 make download-outputs \
   INSTANCE_NAME="test-gpu-instance" \
   GCP_PROJECT_ID=xxx-xxx-xxx \
-  SOURCE=/path/to/your/destination
+  TO=/path/to/your/destination
 ```
 
 ## Links
