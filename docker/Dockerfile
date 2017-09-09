@@ -7,12 +7,17 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         build-essential \
         curl \
-        bzip2 \
+        libfreetype6-dev \
+        libpng12-dev \
+        libzmq3-dev \
         pkg-config \
         rsync \
         software-properties-common \
         unzip \
+        libgtk2.0-0 \
         git \
+        tcl-dev \
+        tk-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
