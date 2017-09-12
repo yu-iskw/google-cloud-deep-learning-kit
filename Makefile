@@ -10,15 +10,6 @@ JUPYTER_PORT := 18888
 DOCKER_TAG := yuiskw/google-cloud-deep-learning-kit
 
 create-instance: check-instance-name check-gcp-project-id check-gcp-zone
-	echo "==============================="
-	echo "make a GCP instance"
-	echo "-------------------------------"
-	echo "INSTANCE_NAME=$(INSTANCE_NAME)"
-	echo "GCP_PROJECT_ID=$(GCP_PROJECT_ID)"
-	echo "GCP_ZONE=$(GCP_PROJECT_ID)"
-	echo "MACHINE_TYPE=$(MACHINE_TYPE)"
-	echo "ACCELERATOR=$(ACCELERATOR)"
-	echo "BOOT_DISK_SIZE=$(BOOT_DISK_SIZE)"
 	./bin/create-instance.sh \
 		$(INSTANCE_NAME) \
 		$(GCP_PROJECT_ID) \
@@ -28,13 +19,13 @@ create-instance: check-instance-name check-gcp-project-id check-gcp-zone
 		$(BOOT_DISK_SIZE)
 
 delete-instance: check-instance-name check-gcp-project-id check-gcp-zone
-	gcloud compute delete $(INSTANCE_NAME) --project $(GCP_PROJECT_ID) --zone $(GCP_ZONE)
+	gcloud compute instances delete $(INSTANCE_NAME) --project $(GCP_PROJECT_ID) --zone $(GCP_ZONE)
 
 run-jupyter: check-instance-name check-gcp-project-id check-gcp-zone
 	$(eval COMMAND := sudo nvidia-docker kill jupyter \
 		|| true \
 		&& sudo nvidia-docker run -it --rm -d -v /src:/src -p 8888:8888 \
-		  --name jupyter yuiskw/google-cloud-deep-learning-kit)
+		    --name jupyter yuiskw/google-cloud-deep-learning-kit)
 	./bin/execute-over-ssh.sh $(INSTANCE_NAME) $(GCP_PROJECT_ID) $(GCP_ZONE) "$(COMMAND)"
 
 upload-files: check-instance-name check-gcp-project-id check-gcp-zone check-from

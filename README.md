@@ -1,8 +1,8 @@
 # Google Cloud Deep Learning Kit
 
-This repository aims to create a google cloud platform GPU instance with Jupyter, Tensorflow and Keras in an instant.
+This repository aims to create a GPU instance with Jupyter, Tensorflow and Keras on google cloud platform in an instant.
 
-## Pre-requisite
+## Requirements
 
 - make
 - Google Cloud SDK
