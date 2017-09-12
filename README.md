@@ -44,6 +44,20 @@ make run-jupyter \
   GCP_PROJECT_ID=xxx-xxx-xxx
 ```
 
+### SSH tunnel
+
+In order to access the jupyter which you launched, you have to have a SSH tunnel.
+When you got it, you can access `http://localhost:18888` via a web browser on your local machine.
+When you don't set any value with `make ssh-tunnel`, the port is the default value.
+The default of `JUPYTER_PORT` is `18888`.
+
+```
+make ssh-tunnel \
+  INSTANCE_NAME="test-gpu-instance" \
+  GCP_PROJECT_ID=xxx-xxx-xxx \
+  JUPYTER_PORT=18888
+```
+
 ### Delete a instance you created
 
 ```
