@@ -2,6 +2,8 @@
 
 This repository aims to create a GPU instance with Jupyter, Tensorflow and Keras on google cloud platform in an instant.
 
+![Overview](./docs/overview.png)
+
 ## Requirements
 
 - make
