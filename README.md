@@ -36,6 +36,14 @@ make create-instance \
   GCP_PROJECT_ID=xxx-xxx-xxx
 ```
 
+### Run Jupyter as a docker container
+
+```
+make run-jupyter \
+  INSTANCE_NAME="test-gpu-instance" \
+  GCP_PROJECT_ID=xxx-xxx-xxx
+```
+
 ### Delete a instance you created
 
 ```
