@@ -52,6 +52,14 @@ make delete-instance \
   GCP_PROJECT_ID=xxx-xxx-xxx
 ```
 
+### Install python libraries
+
+```
+make pip-install \
+  INSTANCE_NAME="test-gpu-instance" \
+  GCP_PROJECT_ID=xxx-xxx-xxx
+```
+
 ### Upload your files
 
 ```
