@@ -62,12 +62,12 @@ ssh-tunnel: check-instance-name check-gcp-project-id check-gcp-zone check-jupyte
 
 build-docker:
 	cd docker \
-		&& docker build . -t $(DOCKER_TAG)
+		&& docker build . -t $(DOCKER_TAG) \
 		&& docker build . -t $(VERION_DOCKER_TAG)
 
 push-docker:
 	cd docker \
-		&& docker push $(DOCKER_TAG)
+		&& docker push $(DOCKER_TAG) \
 		&& docker push $(VERION_DOCKER_TAG)
 
 check-instance-name:
