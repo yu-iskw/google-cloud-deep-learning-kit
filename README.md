@@ -24,6 +24,13 @@ This repository aims to create a GPU instance with Jupyter, Tensorflow and Keras
 7. Download outputs with `make download-outputs`
 8. Delete the instance with `make delete-instance`
 
+## Installed python libraries in the docker image
+
+The pre-built docker image on Docker Hub is created with the following anaconda environment YAML.
+Don't worry, you can additionally install other python library with `make pip-install`, if you want.
+
+[Anaconda Environment YAML](./docker/environment-gpu.yml)
+
 ## Commands Reference
 
 ### Create a GCP instance with GPU
@@ -58,7 +65,10 @@ make ssh-tunnel \
   JUPYTER_PORT=18888
 ```
 
-### Delete a instance you created
+### Delete the instance you created
+
+The command is used for deleting the GCP instance you created.
+Please don't forget to do that after you finish your works!
 
 ```
 make delete-instance \
@@ -68,6 +78,8 @@ make delete-instance \
 
 ### Install python libraries
 
+If you want to install python libraries other than pre-installed ones, please add them to `./requirements.txt` and then execute the below command:
+
 ```
 make pip-install \
   INSTANCE_NAME="test-gpu-instance" \
@@ -75,6 +87,9 @@ make pip-install \
 ```
 
 ### Upload your files
+
+This command allows us to upload files on a local machine to the instance.
+Those files will be set at `/src` on the GCP machine and the docker container will mount it at `/src`.
 
 ```
 make upload-files \
@@ -84,6 +99,9 @@ make upload-files \
 ```
 
 ### Download ouputs
+
+This command allows us to download files under `/src/outputs` in the instance.
+When you save trained models and some predicted results under `/src/outputs`, you can download them with it.
 
 ```
 make download-outputs \

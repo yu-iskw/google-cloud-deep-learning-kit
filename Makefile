@@ -7,7 +7,9 @@ BOOT_DISK_SIZE := 100GB
 
 JUPYTER_PORT := 18888
 
+VERSION := 0.2
 DOCKER_TAG := yuiskw/google-cloud-deep-learning-kit
+VERION_DOCKER_TAG := $(DOCKER_TAG):$(VERSION)
 
 create-instance: check-instance-name check-gcp-project-id check-gcp-zone
 	./bin/create-instance.sh \
@@ -61,10 +63,12 @@ ssh-tunnel: check-instance-name check-gcp-project-id check-gcp-zone check-jupyte
 build-docker:
 	cd docker \
 		&& docker build . -t $(DOCKER_TAG)
+		&& docker build . -t $(VERION_DOCKER_TAG)
 
 push-docker:
 	cd docker \
 		&& docker push $(DOCKER_TAG)
+		&& docker push $(VERION_DOCKER_TAG)
 
 check-instance-name:
 ifndef INSTANCE_NAME
