@@ -1,15 +1,17 @@
 #INSTANCE_NAME := XXXX
 #GCP_PROJECT_ID := XXXX
 GCP_ZONE := us-east1-d
-MACHINE_TYPE := n1-standard-4
+MACHINE_TYPE := n1-standard-8
 ACCELERATOR := type=nvidia-tesla-k80,count=1
-BOOT_DISK_SIZE := 100GB
+BOOT_DISK_SIZE := 200GB
 
 JUPYTER_PORT := 18888
 
-VERSION := 0.2
+VERSION := 0.3
 DOCKER_TAG := yuiskw/google-cloud-deep-learning-kit
 VERION_DOCKER_TAG := $(DOCKER_TAG):$(VERSION)
+
+GCP_INSTANCE_SCOPES := default,bigquery,cloud-platform,storage-rw
 
 create-instance: check-instance-name check-gcp-project-id check-gcp-zone
 	./bin/create-instance.sh \
@@ -18,7 +20,8 @@ create-instance: check-instance-name check-gcp-project-id check-gcp-zone
 		$(GCP_ZONE) \
 		$(MACHINE_TYPE) \
 		$(ACCELERATOR) \
-		$(BOOT_DISK_SIZE)
+		$(BOOT_DISK_SIZE) \
+		$(GCP_INSTANCE_SCOPES)
 
 delete-instance: check-instance-name check-gcp-project-id check-gcp-zone
 	gcloud compute instances delete $(INSTANCE_NAME) --project $(GCP_PROJECT_ID) --zone $(GCP_ZONE)
@@ -27,8 +30,11 @@ run-jupyter: check-instance-name check-gcp-project-id check-gcp-zone
 	$(eval COMMAND := sudo nvidia-docker kill jupyter \
 		|| true \
 		&& sudo nvidia-docker run -it --rm -d -v /src:/src -p 8888:8888 \
-		    --name jupyter yuiskw/google-cloud-deep-learning-kit)
+		--name jupyter yuiskw/google-cloud-deep-learning-kit:latest)
 	./bin/execute-over-ssh.sh $(INSTANCE_NAME) $(GCP_PROJECT_ID) $(GCP_ZONE) "$(COMMAND)"
+
+test-run-jupyter:
+	docker run -it --rm -d -p 8888:8888 --name jupyter yuiskw/google-cloud-deep-learning-kit:0.3
 
 upload-files: check-instance-name check-gcp-project-id check-gcp-zone check-from
 	gcloud compute scp $(FROM) $(INSTANCE_NAME):/src \
@@ -68,7 +74,10 @@ build-docker:
 push-docker:
 	cd docker \
 		&& docker push $(DOCKER_TAG) \
-		&& docker push $(VERION_DOCKER_TAG)
+
+push-docker-version:
+	cd docker \
+		&& docker push $(DOCKER_TAG):$(VERSION)
 
 check-instance-name:
 ifndef INSTANCE_NAME

@@ -7,6 +7,7 @@ GCP_ZONE=$3       # us-east1-d
 MACHINE_TYPE=$4   # n1-standard-4
 ACCELERATOR=$5    # 'type=nvidia-tesla-k80,count=1'
 BOOT_DISK_SIZE=$6 # 100GB
+SCOPES=$7         # default,bigquery,cloud-platfor,storage-rw
 
 gcloud beta compute instances create $INSTANCE_NAME \
    --project $GCP_PROJECT_ID \
@@ -14,13 +15,14 @@ gcloud beta compute instances create $INSTANCE_NAME \
     --machine-type $MACHINE_TYPE \
     --min-cpu-platform "Intel Broadwell" \
     --accelerator $ACCELERATOR \
-    --boot-disk-size=${BOOT_DISK_SIZE} \
+    --boot-disk-size ${BOOT_DISK_SIZE} \
     --boot-disk-auto-delete \
     --boot-disk-type=pd-ssd \
     --image ubuntu-1604-xenial-v20170307 \
     --image-project ubuntu-os-cloud \
     --maintenance-policy TERMINATE \
     --restart-on-failure \
+    --scopes "${SCOPES}" \
     --metadata startup-script='#!/bin/bash
     # Make a directory to store source files
     mkdir -p /src && chmod 777 /src
@@ -42,7 +44,7 @@ gcloud beta compute instances create $INSTANCE_NAME \
 
     # Pull a docker image
     echo "Start pulling a docker image" >> /src/startup-script.log
-    sudo docker pull yuiskw/google-cloud-deep-learning-kit
+    sudo docker pull yuiskw/google-cloud-deep-learning-kit:latest
     echo "End pulling a docker image" >> /src/startup-script.log
 
     # Run docker

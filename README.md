@@ -110,5 +110,10 @@ make download-outputs \
   TO=/path/to/your/destination
 ```
 
+## Jupyter extensions
+
+Jupyter in this docker image has extensions as default.
+If you would like to turn off some extensions, please visit `http://localhost:18888/nbextensions`.
+
 ## Links
 - [yuiskw/google\-cloud\-deep\-learning\-kit \- Docker Hub](https://hub.docker.com/r/yuiskw/google-cloud-deep-learning-kit/)
