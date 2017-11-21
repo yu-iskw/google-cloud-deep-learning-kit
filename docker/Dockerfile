@@ -1,4 +1,4 @@
-FROM nvidia/cuda:8.0-cudnn5-runtime-ubuntu16.04
+FROM nvidia/cuda:8.0-cudnn6-runtime-ubuntu16.04
 
 MAINTAINER yu-iskw
 
@@ -31,10 +31,23 @@ ENV PATH /miniconda/bin:$PATH
 COPY environment-gpu.yml  ./environment.yml
 RUN conda env create -f environment.yml -n jupyter-keras-gpu
 ENV PATH /miniconda/envs/jupyter-keras-gpu/bin:$PATH
-RUN jupyter contrib nbextension install --user
+
+# Install jupyter extensions
+RUN pip install -U jupyter_contrib_nbextensions jupyter_nbextensions_configurator \
+  && jupyter contrib nbextension install --system \
+  && jupyter nbextensions_configurator enable --system
+RUN mkdir -p $(jupyter --data-dir)/nbextensions \
+  && cd $(jupyter --data-dir)/nbextensions \
+  && git clone https://github.com/lambdalisue/jupyter-vim-binding vim_binding \
+  && jupyter nbextension enable vim_binding/vim_binding
+
+# download NLTK data
+#RUN pip install -U nltk && python -m nltk.downloader -d /usr/local/share/nltk_data all
 
 # cleanup tarballs and downloaded package files
-RUN conda clean -tp -y
+RUN conda clean -tp -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set up our notebook config.
 COPY jupyter_notebook_config.py /root/.jupyter/
@@ -50,7 +63,7 @@ VOLUME ["/root/.keras"]
 
 # Make sure CUDNN is detected
 ENV LD_LIBRARY_PATH /usr/local/cuda/lib64/:$LD_LIBRARY_PATH
-RUN ln -s /usr/local/cuda/lib64/libcudnn.so.5 /usr/local/cuda/lib64/libcudnn.so
+RUN ln -s /usr/local/cuda/lib64/libcudnn.so.6 /usr/local/cuda/lib64/libcudnn.so
 
 # TensorBoard
 EXPOSE 6006
