@@ -43,10 +43,32 @@ make create-instance \
   GCP_PROJECT_ID=xxx-xxx-xxx
 ```
 
+When you would like to make a GCP instance without GPU, I would recommend you to execute `make create-instance-cpu`.
+
+```
+make create-instance-cpu \
+  INSTANCE_NAME="test-gpu-instance" \
+  GCP_PROJECT_ID=xxx-xxx-xxx \
+  GCP_ZONE=us-central1-f \
+  MACHINE_TYPE=n1-standard-32
+```
+
 ### Run Jupyter as a docker container
+
+We can run jupyter on the docker container with the command.
+When a container for jupyter is running, it will restart the container.
 
 ```
 make run-jupyter \
+  INSTANCE_NAME="test-gpu-instance" \
+  GCP_PROJECT_ID=xxx-xxx-xxx
+```
+
+When you launch a GCP instance with `make create-instance-cpu`, you must use the command in order to run a container for jupyter.
+Because the docker image with GPUs is totally different from that without GPUs.
+
+```
+make run-jupyter-cpu \
   INSTANCE_NAME="test-gpu-instance" \
   GCP_PROJECT_ID=xxx-xxx-xxx
 ```

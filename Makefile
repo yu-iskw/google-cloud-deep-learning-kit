@@ -7,10 +7,6 @@ BOOT_DISK_SIZE := 200GB
 
 JUPYTER_PORT := 18888
 
-VERSION := 0.3
-DOCKER_TAG := yuiskw/google-cloud-deep-learning-kit
-VERION_DOCKER_TAG := $(DOCKER_TAG):$(VERSION)
-
 GCP_INSTANCE_SCOPES := default,bigquery,cloud-platform,storage-rw
 
 create-instance: check-instance-name check-gcp-project-id check-gcp-zone
@@ -20,6 +16,15 @@ create-instance: check-instance-name check-gcp-project-id check-gcp-zone
 		$(GCP_ZONE) \
 		$(MACHINE_TYPE) \
 		$(ACCELERATOR) \
+		$(BOOT_DISK_SIZE) \
+		$(GCP_INSTANCE_SCOPES)
+
+create-instance-cpu: check-instance-name check-gcp-project-id check-gcp-zone
+	./bin/create-instance-cpu.sh \
+		$(INSTANCE_NAME) \
+		$(GCP_PROJECT_ID) \
+		$(GCP_ZONE) \
+		$(MACHINE_TYPE) \
 		$(BOOT_DISK_SIZE) \
 		$(GCP_INSTANCE_SCOPES)
 
@@ -33,8 +38,12 @@ run-jupyter: check-instance-name check-gcp-project-id check-gcp-zone
 		--name jupyter yuiskw/google-cloud-deep-learning-kit:latest)
 	./bin/execute-over-ssh.sh $(INSTANCE_NAME) $(GCP_PROJECT_ID) $(GCP_ZONE) "$(COMMAND)"
 
-test-run-jupyter:
-	docker run -it --rm -d -p 8888:8888 --name jupyter yuiskw/google-cloud-deep-learning-kit:0.3
+run-jupyter-cpu: check-instance-name check-gcp-project-id check-gcp-zone
+	$(eval COMMAND := sudo nvidia-docker kill jupyter \
+		|| true \
+		&& sudo nvidia-docker run -it --rm -d -v /src:/src -p 8888:8888 \
+		--name jupyter yuiskw/google-cloud-deep-learning-kit:latest-cpu)
+	./bin/execute-over-ssh.sh $(INSTANCE_NAME) $(GCP_PROJECT_ID) $(GCP_ZONE) "$(COMMAND)"
 
 upload-files: check-instance-name check-gcp-project-id check-gcp-zone check-from
 	gcloud compute scp $(FROM) $(INSTANCE_NAME):/src \
@@ -65,19 +74,6 @@ ssh-tunnel: check-instance-name check-gcp-project-id check-gcp-zone check-jupyte
 		--zone $(GCP_ZONE) \
 		--ssh-flag="-L" \
 		--ssh-flag="$(JUPYTER_PORT):localhost:8888"
-
-build-docker:
-	cd docker \
-		&& docker build . -t $(DOCKER_TAG) \
-		&& docker build . -t $(VERION_DOCKER_TAG)
-
-push-docker:
-	cd docker \
-		&& docker push $(DOCKER_TAG) \
-
-push-docker-version:
-	cd docker \
-		&& docker push $(DOCKER_TAG):$(VERSION)
 
 check-instance-name:
 ifndef INSTANCE_NAME

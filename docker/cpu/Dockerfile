@@ -1,4 +1,4 @@
-FROM nvidia/cuda:8.0-cudnn6-runtime-ubuntu16.04
+FROM ubuntu:16.04
 
 MAINTAINER yu-iskw
 
@@ -28,9 +28,9 @@ RUN curl -LO http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh
 ENV PATH /miniconda/bin:$PATH
 
 # Create a conda environment
-COPY environment-gpu.yml  ./environment.yml
-RUN conda env create -f environment.yml -n jupyter-keras-gpu
-ENV PATH /miniconda/envs/jupyter-keras-gpu/bin:$PATH
+COPY environment-cpu.yml  ./environment.yml
+RUN conda env create -f environment.yml -n jupyter-keras-cpu
+ENV PATH /miniconda/envs/jupyter-keras-cpu/bin:$PATH
 
 # Install jupyter extensions
 RUN pip install -U jupyter_contrib_nbextensions jupyter_nbextensions_configurator \
@@ -61,10 +61,6 @@ WORKDIR "/src"
 RUN ["mkdir", "/root/.keras"]
 VOLUME ["/root/.keras"]
 
-# Make sure CUDNN is detected
-ENV LD_LIBRARY_PATH /usr/local/cuda/lib64/:$LD_LIBRARY_PATH
-RUN ln -s /usr/local/cuda/lib64/libcudnn.so.6 /usr/local/cuda/lib64/libcudnn.so
-
 # TensorBoard
 EXPOSE 6006
 # Jupyter
@@ -74,4 +70,4 @@ EXPOSE 4567
 
 COPY run-jupyter.sh /
 RUN chmod +x /run-jupyter.sh
-ENTRYPOINT ["/run-jupyter.sh"]
+CMD ["/run-jupyter.sh"]
