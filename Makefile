@@ -35,7 +35,7 @@ run-jupyter: check-instance-name check-gcp-project-id check-gcp-zone
 	$(eval COMMAND := sudo nvidia-docker kill jupyter \
 		|| true \
 		&& sudo nvidia-docker run -it --rm -d -v /src:/src -p 8888:8888 \
-		--name jupyter yuiskw/google-cloud-deep-learning-kit:latest)
+		--name jupyter yuiskw/google-cloud-deep-learning-kit:latest-gpu)
 	./bin/execute-over-ssh.sh $(INSTANCE_NAME) $(GCP_PROJECT_ID) $(GCP_ZONE) "$(COMMAND)"
 
 run-jupyter-cpu: check-instance-name check-gcp-project-id check-gcp-zone

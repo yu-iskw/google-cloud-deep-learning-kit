@@ -12,7 +12,7 @@ This repository aims to create a GPU instance with Jupyter, Tensorflow and Keras
 
 ## Life Cycle to Use this Kit
 
-1. Create an instance with `make create-instance`
+1. Create an instance with `make create-instance` or `make create-instance-cpu`
 2. Run jupyter on the instance with `make run-jupyter`
   - It may takes 5 minutes or so.
 3. Install python libraries with `make pip-install`
