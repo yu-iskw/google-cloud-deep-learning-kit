@@ -5,6 +5,9 @@ MACHINE_TYPE := n1-standard-8
 ACCELERATOR := type=nvidia-tesla-k80,count=1
 BOOT_DISK_SIZE := 200GB
 
+DOCKER_IMAGE_CPU := tf-1.4-cpu
+DOCKER_IMAGE_GPU := tf-1.4-gpu
+
 JUPYTER_PORT := 18888
 
 GCP_INSTANCE_SCOPES := default,bigquery,cloud-platform,storage-rw
@@ -35,14 +38,14 @@ run-jupyter: check-instance-name check-gcp-project-id check-gcp-zone
 	$(eval COMMAND := sudo nvidia-docker kill jupyter \
 		|| true \
 		&& sudo nvidia-docker run -it --rm -d -v /src:/src -p 8888:8888 \
-		--name jupyter yuiskw/google-cloud-deep-learning-kit:latest-gpu)
+		--name jupyter yuiskw/google-cloud-deep-learning-kit:$(DOCKER_IMAGE_GPU))
 	./bin/execute-over-ssh.sh $(INSTANCE_NAME) $(GCP_PROJECT_ID) $(GCP_ZONE) "$(COMMAND)"
 
 run-jupyter-cpu: check-instance-name check-gcp-project-id check-gcp-zone
-	$(eval COMMAND := sudo nvidia-docker kill jupyter \
+	$(eval COMMAND := sudo docker kill jupyter \
 		|| true \
-		&& sudo nvidia-docker run -it --rm -d -v /src:/src -p 8888:8888 \
-		--name jupyter yuiskw/google-cloud-deep-learning-kit:latest-cpu)
+		&& sudo docker run -it --rm -d -v /src:/src -p 8888:8888 \
+		--name jupyter yuiskw/google-cloud-deep-learning-kit:$(DOCKER_IMAGE_CPU))
 	./bin/execute-over-ssh.sh $(INSTANCE_NAME) $(GCP_PROJECT_ID) $(GCP_ZONE) "$(COMMAND)"
 
 upload-files: check-instance-name check-gcp-project-id check-gcp-zone check-from

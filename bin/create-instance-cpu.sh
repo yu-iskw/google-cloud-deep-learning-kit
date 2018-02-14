@@ -29,6 +29,22 @@ gcloud beta compute instances create $INSTANCE_NAME \
     sudo apt-get update
     sudo apt-get install -y wget linux-headers-$(uname -r) gcc make g++
 
+    # install docker
+    # https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/#set-up-the-repository
+    sudo apt-get install \
+      apt-transport-https \
+      ca-certificates \
+      curl \
+      software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo apt-key fingerprint 0EBFCD88
+    sudo add-apt-repository \
+      "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+      $(lsb_release -cs) \
+      stable"
+    sudo apt-get update -y
+    sudo apt-get install -y docker-ce
+
     # Pull a docker image
     echo "Start pulling a docker image" >> /src/startup-script.log
     sudo docker pull yuiskw/google-cloud-deep-learning-kit:latest-cpu

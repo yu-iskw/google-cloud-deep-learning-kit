@@ -45,7 +45,7 @@ RUN mkdir -p $(jupyter --data-dir)/nbextensions \
 #RUN pip install -U nltk && python -m nltk.downloader -d /usr/local/share/nltk_data all
 
 # cleanup tarballs and downloaded package files
-RUN conda clean -tp -y \
+RUN conda clean --all -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

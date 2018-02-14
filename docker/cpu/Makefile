@@ -16,3 +16,9 @@ push-docker-latest:
 
 test-run-jupyter:
 	docker run -it --rm -d -p 28888:8888 --name jupyter $(VERION_DOCKER_TAG)
+
+create-conda:
+	conda env create -f ./environment-cpu.yml -n jupyter-keras-cpu
+
+remove-conda:
+	conda env remove -n jupyter-keras-cpu
