@@ -16,3 +16,9 @@ push-docker-latest:
 
 test-run-jupyter:
 	docker run -it --rm -d -p 8888:28888 --name jupyter $(VERION_DOCKER_TAG)
+
+create-conda:
+	conda env create -f ./environment-gpu.yml -n jupyter-keras-gpu
+
+remove-conda:
+	conda env remove -n jupyter-keras-gpu

@@ -21,6 +21,8 @@ dependencies:
     - pandas
     - ffmpeg
     - imageio
+    - nltk
+    - gensim
     - pip:
         - jupyter
         - moviepy

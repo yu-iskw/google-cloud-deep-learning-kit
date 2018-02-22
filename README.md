@@ -79,8 +79,13 @@ When a container for jupyter is running, it will restart the container.
 ```
 make run-jupyter \
   INSTANCE_NAME="test-gpu-instance" \
-  GCP_PROJECT_ID=xxx-xxx-xxx
+  GCP_PROJECT_ID=xxx-xxx-xxx \
+  DOCKER_IMAGE_GPU=tf-1.4-gpu
 ```
+
+We support some types of docker image for GPU.
+
+- `tf-1.4-gpu`: Tensorflow 1.4 for GPU
 
 #### Run Jupyter as a docker container on a CPU instance
 When you launch a GCP instance with `make create-instance-cpu`, you must use the command in order to run a container for jupyter.
@@ -89,8 +94,13 @@ Because the docker image with GPUs is totally different from that without GPUs.
 ```
 make run-jupyter-cpu \
   INSTANCE_NAME="test-gpu-instance" \
-  GCP_PROJECT_ID=xxx-xxx-xxx
+  GCP_PROJECT_ID=xxx-xxx-xxx \
+  DOCKER_IMAGE_CPU=tf-1.4-cpu
 ```
+
+We support some types of docker image for GPU.
+
+- `tf-1.4-cpu`: Tensorflow 1.4 for CPU
 
 ### SSH tunnel
 In order to access the jupyter which you launched, you have to have a SSH tunnel.
