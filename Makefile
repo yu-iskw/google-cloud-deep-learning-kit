@@ -6,8 +6,8 @@ ACCELERATOR := type=nvidia-tesla-k80,count=1
 BOOT_DISK_SIZE := 200GB
 
 CUDA_VERSION=8
-DOCKER_IMAGE_GPU := tf-1.5-gpu-cuda8
-DOCKER_IMAGE_CPU := tf-1.5-cpu
+DOCKER_IMAGE_GPU := tf-1.6-gpu-cuda9
+DOCKER_IMAGE_CPU := tf-1.6-cpu
 
 JUPYTER_PORT := 18888
 
