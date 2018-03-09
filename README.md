@@ -35,14 +35,22 @@ Don't worry, you can additionally install other python library with `make pip-in
 
 ### Create a GCP instance with GPUs
 It may take 5 minutes or so to finish to execute the startup script to install the require environment in your instance.
+We have two CUDA version, 8.0 and 9.0.
+Please make sure which version you want to use.
+If you create an instance with CUDA 8, you can run only docker images to be customized to CUDA 8.
+Likewize, if you create an instance with CUDA 9, you can run only docker images to be customized to CUDA 8.
+As you know, tensorflow 1.4- does not support CUDA 9.
+Please pay attention to CUDA version and tensorflow version before you make an GCP instance.
 
 ```
 make create-instance \
+  CUDA_VERSION=8 \
   INSTANCE_NAME="test-gpu-instance" \
   GCP_PROJECT_ID=xxx-xxx-xxx
 ```
 
 The command has some options as following:
+- `CUDA_VERSION`: CUDA version. Default: `8`. Either of `8` or `9`.
 - `INSTANCE_NAME`: GCP instance name
 - `GCP_PROJECT_ID`: GCP project ID
 - `MACHINE_TYPE`: GCP instance machine type
@@ -80,12 +88,15 @@ When a container for jupyter is running, it will restart the container.
 make run-jupyter \
   INSTANCE_NAME="test-gpu-instance" \
   GCP_PROJECT_ID=xxx-xxx-xxx \
-  DOCKER_IMAGE_GPU=tf-1.4-gpu
+  DOCKER_IMAGE_GPU=tf-1.5-gpu-cuda8
 ```
 
 We support some types of docker image for GPU.
+As we described above, please make sure the CUDA version of an instance you made.
 
 - `tf-1.4-gpu`: Tensorflow 1.4 for GPU
+- `tf-1.5-gpu-cuda8`: Tensorflow 1.5 with CUDA8 for GPU
+- `tf-1.5-gpu-cuda9`: Tensorflow 1.5 WITH CUDA9 for GPU
 
 #### Run Jupyter as a docker container on a CPU instance
 When you launch a GCP instance with `make create-instance-cpu`, you must use the command in order to run a container for jupyter.
@@ -101,6 +112,7 @@ make run-jupyter-cpu \
 We support some types of docker image for GPU.
 
 - `tf-1.4-cpu`: Tensorflow 1.4 for CPU
+- `tf-1.5-cpu`: Tensorflow 1.4 for CPU
 
 ### SSH tunnel
 In order to access the jupyter which you launched, you have to have a SSH tunnel.

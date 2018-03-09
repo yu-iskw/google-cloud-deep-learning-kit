@@ -1,26 +1,28 @@
 #INSTANCE_NAME := XXXX
 #GCP_PROJECT_ID := XXXX
-GCP_ZONE := us-east1-d
+GCP_ZONE := us-west1-b
 MACHINE_TYPE := n1-standard-8
 ACCELERATOR := type=nvidia-tesla-k80,count=1
 BOOT_DISK_SIZE := 200GB
 
-DOCKER_IMAGE_GPU := tf-1.4-gpu
-DOCKER_IMAGE_CPU := tf-1.4-cpu
+CUDA_VERSION=8
+DOCKER_IMAGE_GPU := tf-1.5-gpu-cuda8
+DOCKER_IMAGE_CPU := tf-1.5-cpu
 
 JUPYTER_PORT := 18888
 
 GCP_INSTANCE_SCOPES := default,bigquery,cloud-platform,storage-rw
 
-create-instance: check-instance-name check-gcp-project-id check-gcp-zone
-	./bin/create-instance.sh \
-		$(INSTANCE_NAME) \
-		$(GCP_PROJECT_ID) \
-		$(GCP_ZONE) \
-		$(MACHINE_TYPE) \
-		$(ACCELERATOR) \
-		$(BOOT_DISK_SIZE) \
-		$(GCP_INSTANCE_SCOPES)
+create-instance: check-instance-name check-gcp-project-id check-gcp-zone check-cuda-version
+	CUDA_VERSION=$(CUDA_VERSION) \
+		./bin/create-instance.sh \
+				$(INSTANCE_NAME) \
+				$(GCP_PROJECT_ID) \
+				$(GCP_ZONE) \
+				$(MACHINE_TYPE) \
+				$(ACCELERATOR) \
+				$(BOOT_DISK_SIZE) \
+				$(GCP_INSTANCE_SCOPES)
 
 create-instance-cpu: check-instance-name check-gcp-project-id check-gcp-zone
 	./bin/create-instance-cpu.sh \
@@ -106,4 +108,9 @@ endif
 check-to:
 ifndef TO
 	$(error TO is undefined)
+endif
+
+check-cuda-version:
+ifndef CUDA_VERSION
+	$(error CUDA_VERSION is undefined)
 endif
