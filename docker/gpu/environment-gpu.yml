@@ -1,4 +1,4 @@
-name: jupyter-keras-cpu
+name: jupyter-keras-gpu
 channels:
     - https://conda.anaconda.org/menpo
     - conda-forge
@@ -20,11 +20,14 @@ dependencies:
     - seaborn
     - pandas
     - ffmpeg
-    - imageio=2.1.2
+    - imageio
+    - nltk
+    - gensim
     - pip:
         - jupyter
-        - tensorflow==1.4.0
         - moviepy
+        - tensorflow-gpu==1.4.0
         - pydot
         - nltk
         - pandas-gbq
+        - awscli
