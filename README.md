@@ -83,36 +83,35 @@ The command has some options as following:
 #### Run Jupyter as a docker container on a GPU instance
 We can run jupyter on the docker container with the command.
 When a container for jupyter is running, it will restart the container.
-
 ```
 make run-jupyter \
   INSTANCE_NAME="test-gpu-instance" \
   GCP_PROJECT_ID=xxx-xxx-xxx \
-  DOCKER_IMAGE_GPU=tf-1.5-gpu-cuda8
+  DOCKER_IMAGE_GPU=tf-1.6-gpu-cuda8
 ```
 
 We support some types of docker image for GPU.
 As we described above, please make sure the CUDA version of an instance you made.
-
 - `tf-1.4-gpu`: Tensorflow 1.4 for GPU
 - `tf-1.5-gpu-cuda8`: Tensorflow 1.5 with CUDA8 for GPU
 - `tf-1.5-gpu-cuda9`: Tensorflow 1.5 WITH CUDA9 for GPU
+- `tf-1.6-gpu-cuda8`: Tensorflow 1.6 with CUDA8 for GPU
+- `tf-1.6-gpu-cuda9`: Tensorflow 1.6 WITH CUDA9 for GPU
 
 #### Run Jupyter as a docker container on a CPU instance
 When you launch a GCP instance with `make create-instance-cpu`, you must use the command in order to run a container for jupyter.
 Because the docker image with GPUs is totally different from that without GPUs.
-
 ```
 make run-jupyter-cpu \
   INSTANCE_NAME="test-gpu-instance" \
   GCP_PROJECT_ID=xxx-xxx-xxx \
-  DOCKER_IMAGE_CPU=tf-1.4-cpu
+  DOCKER_IMAGE_CPU=tf-1.6-cpu
 ```
 
 We support some types of docker image for GPU.
-
 - `tf-1.4-cpu`: Tensorflow 1.4 for CPU
 - `tf-1.5-cpu`: Tensorflow 1.4 for CPU
+- `tf-1.6-cpu`: Tensorflow 1.4 for CPU
 
 ### SSH tunnel
 In order to access the jupyter which you launched, you have to have a SSH tunnel.
