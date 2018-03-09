@@ -37,8 +37,6 @@ gcloud beta compute instances create $INSTANCE_NAME \
     sudo dpkg -i cuda-repo-ubuntu1604_9.1.85-1_amd64.deb
     sudo apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
     sudo apt-get update
-    # tensorflow 1.6 does not work on cuda-9.1
-    # Instead, we use cuda-9.0.
     #sudo apt-get -y install cuda
     sudo apt-get -y install cuda-9-0
     export PATH=$PATH:/usr/local/cuda/bin
