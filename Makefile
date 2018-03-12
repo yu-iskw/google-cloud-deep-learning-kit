@@ -1,12 +1,12 @@
 #INSTANCE_NAME := XXXX
 #GCP_PROJECT_ID := XXXX
-GCP_ZONE := us-west1-b
+GCP_ZONE := us-east1-d
 MACHINE_TYPE := n1-standard-8
 ACCELERATOR := type=nvidia-tesla-k80,count=1
 BOOT_DISK_SIZE := 200GB
 
-DOCKER_IMAGE_GPU := tf-1.5-gpu
-DOCKER_IMAGE_CPU := tf-1.5-cpu
+DOCKER_IMAGE_GPU := tf-1.4-gpu
+DOCKER_IMAGE_CPU := tf-1.4-cpu
 
 JUPYTER_PORT := 18888
 

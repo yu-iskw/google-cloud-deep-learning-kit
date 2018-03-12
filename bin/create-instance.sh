@@ -44,7 +44,7 @@ gcloud beta compute instances create $INSTANCE_NAME \
 
     # Pull a docker image
     echo "Start pulling a docker image" >> /src/startup-script.log
-    sudo docker pull yuiskw/google-cloud-deep-learning-kit:tf-1.5-gpu
+    sudo docker pull yuiskw/google-cloud-deep-learning-kit:latest
     echo "End pulling a docker image" >> /src/startup-script.log
 
     # Run docker

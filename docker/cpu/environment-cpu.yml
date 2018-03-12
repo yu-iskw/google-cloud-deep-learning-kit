@@ -21,11 +21,11 @@ dependencies:
     - pandas
     - ffmpeg
     - imageio
+    - nltk
     - gensim
     - pip:
         - jupyter
-        - tensorflow==1.5.0
-        - nltk
+        - tensorflow==1.4.0
         - moviepy
         - pydot
         - pandas-gbq

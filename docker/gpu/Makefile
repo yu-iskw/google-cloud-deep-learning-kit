@@ -1,6 +1,6 @@
 DOCKER_TAG := yuiskw/google-cloud-deep-learning-kit
 LATEST_VERSION := latest-gpu
-VERSION := tf-1.5-gpu
+VERSION := tf-1.4-gpu
 LATEST_DOCKER_TAG := $(DOCKER_TAG):$(LATEST_VERSION)
 VERION_DOCKER_TAG := $(DOCKER_TAG):$(VERSION)
 
